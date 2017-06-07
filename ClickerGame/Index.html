@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<style>
+			td{
+				width: 150px;
+				border: 1px inset black;
+			}
+			.titel{
+				text-align: center;
+			}
+		</style>
+	</head>
+	<body background="background.png" style="text-shadow: 1px 1px white;">
+		<h1>Test</h1>
+		<div id="but">
+			<form>
+				<div id="starten">
+					Starten:
+					<input type="button" value="Start" onclick="Start()">
+				</div>
+				<div id="dorp" style="display:none">
+					Het dorp: 
+					<input type="button" value="Geef Voedsel" onclick="geefEten()">
+					<!--<input type="button" value="Geef Water" onclick="geefWater()">-->
+					<input type="button" value="Minen" onclick="Minen()">
+					<input type="button" value="Hak Hout" onclick="houtHakken()">
+					<input type="button" value="Extra Bewoner" onclick="extraBewoner()">
+					<input type="button" value="Gooi Een Meteor" onclick="kill()">
+					<input type="button" value="Debug" onclick="debug()">
+					<br>Gebouwen:
+					<input type="button" value="Bouw een Waterpomp" onclick="bouwPomp()">
+					<input type="button" value="Bouw een Boerderij" onclick="bouwFarm()">
+					<input type="button" value="Bouw een Steengroeve" onclick="bouwSteen()">
+					<input type="button" value="Bouw een Houthakkershut" onclick="bouwHoutHakkersHut()">
+					<input type="button" value="Bouw een Houten Huis" onclick="bouwHoutenHuis()">
+					<div id="kasteel" style='display: none;'>
+						<input type="button" value="Bouw een Kasteel" onclick="bouwKasteel()">
+					</div>
+				</div>
+			</form>
+			<div id="txt"></div>
+		</div>
+			
+		
+		<script>
+			//leefgebied
+			var leefgebied = Math.floor(Math.random() * 2) + 1;
+			var leefgebiedNaam;
+			
+			//Timer en tijd
+			var eten; //Timer
+			var tijd = 30000;
+			
+			//Bewoners
+			var bewoners = 2;
+			var maxBewoners;
+			
+			//grondstoffen
+			var water;
+			var voedsel;
+			var steen = 0;
+			var hout = 0;
+			
+			//Gebouwen
+			var houtenHuis = 1;
+			var kasteel = 0;
+			var waterpomp = 0;
+			var farm = 0;
+			var steengroeve = 0;
+			var houthakkersHut = 0;
+			
+			//Verbruik
+			var waterVerbruik;
+			var voedselVerbruik;
+			var totaalVoedselVerbruik;
+			var totaalWaterVerbruik;
+			var totaalSteenVerbruik;
+			var totaalHoutVerbruik;
+			
+			//Gebouw Kosten
+			var waterpompKosten;
+			var farmKosten;
+			var steenKosten;
+			var houthakkersHutKosten;
+			var houtenHuisKosten;
+			var kasteelKosten = 1000;
+			
+			//objecten (divs)
+			var dorp = document.getElementById("dorp");
+			var kasteelObj = document.getElementById("kasteel");
+			
+			//Bepaal leefgebied
+			switch (leefgebied){
+				case 2: 
+					leefgebiedNaam = "Woestijn";
+					waterVerbruik = 3;
+					voedselVerbruik = 2;
+					voedsel = 7;
+					waterpompKosten = 25;
+					farmKosten = 50;
+					steenKosten = 100;
+					houtenHuisKosten = 250;
+					houthakkersHutKosten = 100;
+					water = Math.floor(Math.random() * 50) + 1;
+				break;
+				default:
+					leefgebiedNaam = "Het Bos";
+					waterVerbruik = 2;
+					voedselVerbruik = 3;
+					voedsel = 9;
+					farmKosten = 25;
+					waterpompKosten = 50;
+					steenKosten = 100;
+					houtenHuisKosten = 100;
+					houthakkersHutKosten = 250;
+					water = Math.floor(Math.random() * 35) + 26;
+			}
+			
+			function Start(){
+				dorp.style.display = "block";
+				if (voedsel > 0 && water > 0){
+					eten = setTimeout(Start, tijd);
+					voedsel = voedsel - (bewoners * voedselVerbruik)+(farm * 1);
+					water = water - (bewoners * waterVerbruik)+(waterpomp * 1);
+					steen = steen + (steengroeve * 1);
+					hout = hout + (houthakkersHut * 1);
+					veranderMaxBewoners();
+					if (voedsel < 0){
+						voedsel = 0;
+					}
+					if (water < 0){
+						water = 0;
+					}
+					show();
+				} else {
+					alert("Je kolonie is dood!!!");
+					bewoners = 0;
+					document.getElementById("but").innerHTML = "Je kolonie is dood!!!<br><br>";
+				}
+				document.getElementById("starten").innerHTML = "";
+			}
+			
+			function geefEten(){
+				voedsel = voedsel + 1;
+				show();
+			}
+			
+			function geefWater(){
+				water = water + 1;
+				show();
+			}
+			
+			function extraBewoner(){
+				if (bewoners < maxBewoners){
+					bewoners = bewoners + 1;
+				}
+				checkKasteel();
+				show();
+			}
+			
+			function checkKasteel(){
+				if((bewoners >= 10 && kasteel == 0) || 
+				   (bewoners >= 25 && kasteel == 1) || 
+				   (bewoners >= 50 && kasteel == 2) || 
+				   (bewoners >= 100 && kasteel == 3) || 
+				   (bewoners >= 250 && kasteel == 4)){
+					kasteelObj.style.display = "inline-block";
+				} else {
+					kasteelObj.style.display = "none";
+				}
+			}
+			
+			function Minen(){
+				steen = steen + Math.floor(Math.random() * 6);
+				show();
+			}
+			
+			function houtHakken(){
+				hout = hout + Math.floor(Math.random() * 6);
+				show();
+			}
+			
+			function kill(){
+				alert("Waarom de Fuck deed je dat!!!");
+				bewoners = 0;
+				document.getElementById("but").innerHTML = "Je kolonie is dood!!!<br><br>";
+			}
+			
+			function bouwPomp(){
+				if (steen >= waterpompKosten){
+					steen = steen - waterpompKosten;
+					waterpomp = waterpomp + 1;
+					show();
+				}
+			}
+			
+			function bouwFarm(){
+				if (steen >= farmKosten){
+					steen = steen - farmKosten;
+					farm = farm + 1;
+					show();
+				}
+			}
+			
+			function bouwSteen(){
+				if (steen >= steenKosten){
+					steen = steen - steenKosten;
+					steengroeve = steengroeve + 1;
+					show();
+				}
+			}
+			
+			function bouwHoutHakkersHut(){
+				if (hout >= houthakkersHutKosten){
+					hout = hout - houthakkersHutKosten;
+					houthakkersHut = houthakkersHut + 1;
+					show();
+				}
+			}
+			
+			function bouwHoutenHuis(){
+				if (hout >= houtenHuisKosten){
+					hout = hout - houtenHuisKosten;
+					houtenHuis = houtenHuis + 1;
+					veranderMaxBewoners();
+					show();
+				}
+			}
+			
+			function bouwKasteel(){
+				if (steen >= kasteelKosten){
+					steen = steen - kasteelKosten;
+					kasteel = kasteel + 1;
+					checkKasteel();
+					veranderMaxBewoners();
+					show();
+				}
+			}
+			
+			function veranderMaxBewoners(){
+				maxBewoners = (houtenHuis * 3) + (kasteel * 5);
+			}
+			
+			function debug(){
+				voedsel = voedsel + 1000000;
+				water = water + 1000000;
+				steen = steen + 1000000;
+				hout = hout + 1000000;
+				show();
+			}
+			
+			function show(){
+				totaalVoedselVerbruik = (farm * 1)-(bewoners * voedselVerbruik);
+				totaalWaterVerbruik = (waterpomp * 1)-(bewoners * waterVerbruik);
+				totaalSteenVerbruik = (steengroeve * 1);
+				totaalHoutVerbruik = (houthakkersHut * 1);
+				document.getElementById("txt").innerHTML = "<strong>Kolonie Informatie</strong>"
+													      +"<table><tr><td>Leefgebied: </td><td>"		+leefgebiedNaam
+														  +"</td></tr><tr><td>Bewoners: </td><td>"		+bewoners+" / "+maxBewoners
+														  +"</td></tr></table><br><br><strong>Grondstoffen</strong>"
+														  +"<br><table><tr><td>Eten: </td><td>"	+voedsel+" ( "+totaalVoedselVerbruik+" ) </td</tr>"
+														  +"<tr><td>Water: </td><td>"	+water+" ( "+totaalWaterVerbruik+" ) </td></tr>"
+														  +"<tr><td>Steen: </td><td>"	+steen+" ( "+totaalSteenVerbruik+" ) </td></tr>"
+														  +"<tr><td>Hout: </td><td>"    +hout+" ( "+totaalHoutVerbruik+" ) </td></tr></table>"
+														  +"<br><br><strong>Gebouwen voor Grondstoffen</strong>"
+														  +"<br><table><tr><td>Waterpomp:</td><td>     "+waterpomp
+														  +"<br></tr><tr><td>Boerderij:     </td><td>"+farm
+														  +"<br></tr><tr><td>Steengroeve:   </td><td>"+steengroeve
+														  +"<br></tr><tr><td>Houthakkershut: </td><td>"+houthakkersHut+"</td></tr></table>"
+														  +"<br><br><strong>Huizen</strong>"
+														  +"<table><tr><td>Houten Huizen: </td><td>"+houtenHuis+"</td></tr>"
+														  +"<br><tr><td>Kasteel:</td><td>       "+kasteel+"</td></tr></table>"
+														  ;
+			}
+			
+		</script>
+	</body>
+</html>
