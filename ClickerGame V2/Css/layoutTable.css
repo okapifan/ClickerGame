@@ -1,0 +1,16 @@
+td{
+	width: 150px;
+	border: 1px inset black;
+}
+th{
+	text-align: center;
+}
+.titelHeader{
+	text-align: center;
+}
+.infoBox{
+	width: 310px;
+	border: 1px inset black;
+	text-align: center;
+	height: 100px;
+}

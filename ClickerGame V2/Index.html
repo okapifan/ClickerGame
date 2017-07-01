@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<link rel="stylesheet" type="text/css" href="css/layoutTable.css">
+		<title>Clicker Game</title>
+	</head>
+	<body background="afbeeldingen/background.png" style="text-shadow: 1px 1px white;">
+		<h1>Clicker Game</h1>
+		<div>
+			<form>
+				<div id="starten" style='display: block;'>
+					Starten:
+					<input type="button" value="Start" onclick="betterStart()"><br><br>
+				</div>
+				<div id="dorp" style="display:none">
+					Het dorp: 
+					<input type="button" value="Geef Voedsel" onclick="geefEten()">
+					<!--<input type="button" value="Geef Water" onclick="geefWater()">-->
+					<input type="button" value="Minen" onclick="Minen()">
+					<input type="button" value="Hak Hout" onclick="houtHakken()">
+					<input type="button" value="Extra Bewoner" onclick="extraBewoner()">
+					<input type="button" value="Gooi Een Meteor" onclick="kill()">
+					<input type="button" value="Debug" onclick="debug()">
+					<br>Gebouwen:
+					<input type="button" value="Bouw een Boerderij" onclick="bouwFarm()">
+					<input type="button" value="Bouw een Waterpomp" onclick="bouwPomp()">
+					<input type="button" value="Bouw een Steengroeve" onclick="bouwSteen()">
+					<input type="button" value="Bouw een Houthakkershut" onclick="bouwHoutHakkersHut()">
+					<input type="button" value="Bouw een Houten Huis" onclick="bouwHoutenHuis()">
+					<input type="button" value="Bouw een Kolenmijn" onclick="bouwKolenMijn()">
+					<div id="kasteel" style='display: none;'>
+						<input type="button" value="Bouw een Kasteel" onclick="bouwKasteel()">
+					</div>
+					<div id="upgrades" style='display: none;'>
+						Upgrades:
+						<div id="waterpompUpgrade" style='display: none;'>
+							<input type="button" value="Waterpomp Upgrade" onclick="upgradePomp()">
+						</div>
+						<div id="farmUpgrade" style='display: none;'>
+							<input type="button" value="Boerderij Upgrade" onclick="upgradeFarm()">
+						</div>
+						<div id="steenUpgrade" style='display: none;'>
+							<input type="button" value="Steengroeve Upgrade" onclick="upgradeSteen()">
+						</div>
+						<div id="houtUpgrade" style='display: none;'>
+							<input type="button" value="Houthakkershut Upgrade" onclick="upgradeHouthakkershut()">
+						</div>
+					</div>
+					<br><br><div id="txt"></div>
+				</div>
+			</form>
+		</div>
+		<br><br><div id="testDing" style='display: none;'>test</div>
+		
+		<!--JavaScript Import-->
+		<script language="JavaScript" src="JavaScript/gegevens.js"></script>
+		<script language="JavaScript" src="JavaScript/Start.js"></script>
+		<script language="JavaScript" src="JavaScript/betterStart.js"></script>
+		<script language="JavaScript" src="JavaScript/geefEten.js"></script>
+		<script language="JavaScript" src="JavaScript/geefWater.js"></script>
+		<script language="JavaScript" src="JavaScript/extraBewoner.js"></script>
+		<script language="JavaScript" src="JavaScript/checkKasteel.js"></script>
+		<script language="JavaScript" src="JavaScript/Minen.js"></script>
+		<script language="JavaScript" src="JavaScript/houtHakken.js"></script>
+		<script language="JavaScript" src="JavaScript/kill.js"></script>
+		<script language="JavaScript" src="JavaScript/bouwPomp.js"></script>
+		<script language="JavaScript" src="JavaScript/BouwFarm.js"></script>
+		<script language="JavaScript" src="JavaScript/bouwSteen.js"></script>
+		<script language="JavaScript" src="JavaScript/bouwHoutHakkersHut.js"></script>
+		<script language="JavaScript" src="JavaScript/bouwHoutenHuis.js"></script>
+		<script language="JavaScript" src="JavaScript/bouwKasteel.js"></script>
+		<script language="JavaScript" src="JavaScript/bouwKolenMijn.js"></script>
+		<script language="JavaScript" src="JavaScript/checkUpgrades.js"></script>
+		<script language="JavaScript" src="JavaScript/upgradePomp.js"></script>
+		<script language="JavaScript" src="JavaScript/upgradeFarm.js"></script>
+		<script language="JavaScript" src="JavaScript/upgradeHouthakkershut.js"></script>
+		<script language="JavaScript" src="JavaScript/upgradeSteen.js"></script>
+		<script language="JavaScript" src="JavaScript/veranderMaxBewoners.js"></script>
+		<script language="JavaScript" src="JavaScript/maakCoal.js"></script>
+		<script language="JavaScript" src="JavaScript/debug.js"></script>
+		<script language="JavaScript" src="JavaScript/show.js"></script>
+	</body>
+</html>
